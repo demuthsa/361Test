@@ -40,6 +40,24 @@ print(output.decode())
 ## Receiving Data
 This output is based on the weather conditions provided in the request.
 
+1. Subprocess Call: In the main application, Python's subprocess module is used to call the microservice. This is done using subprocess.check_output(), which not only runs the microservice script but also captures its output. Here's the key part of your code that does this:
+```
+output = subprocess.check_output(["python3", "weatherAdvisoryMicroservice.py", input_data])
+```
+In this line, input_data is a JSON string sent to the microservice, and subprocess.check_output() is responsible for executing the microservice and capturing its output.
+
+2. Microservice Processing: The microservice, upon execution, receives the JSON string, processes it to generate a weather advisory based on the provided data, and then prints the advisory.
+
+3. Capturing Output: The output of the microservice (the printed weather advisory) is captured by the subprocess.check_output() method in the main application.
+
+4. Decoding the Output: The captured output is in bytes, so you decode it to convert it into a string format which is more readable and usable:
+
+```
+print(output.decode())
+```
+
+5. Displaying the Advisory: Finally, the decoded string, which contains the weather advisory, is printed to the console, making it visible to the user.
+
 ## UML Sequence Diagram
 Below is a UML sequence diagram illustrating the interaction between the main application and the microservice:
 
