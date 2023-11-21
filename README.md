@@ -55,6 +55,7 @@ print(output.decode())
 
 ## UML Sequence Diagram
 Below is a UML sequence diagram illustrating the interaction between the main application and the microservice:
+<img width="1182" alt="Screen Shot 2023-11-20 at 7 52 02 PM" src="https://github.com/demuthsa/361_Weather_App/assets/76825032/81ae377f-d1ae-4a3f-8550-9a52a8b7f40d">
 
 
 # Setup and Requirements
