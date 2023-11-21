@@ -8,34 +8,29 @@ Our communication contract remains consistent to ensure reliability and clarity 
 
 ## Requesting Data
 
-1. User Input Handling: In your main weather app file (main.py), the user provides input through the command line. This input specifies the location and optionally the units (imperial, metric, or standard) and whether additional information like wind speed, humidity, and pressure is desired.
+1. User Input Processing: The main app starts by processing user input. This is done using the argparse library, where you parse command-line arguments to get the desired location and optionally, the units for temperature, and whether additional weather information is desired.
 
-2. API Call to Fetch Weather Data: The app makes an external API call to OpenWeatherMap using the provided location and units. It receives weather data in response, including temperature, weather description, etc.
+2. Fetching Weather Data from External API: With the user's input, the app makes an API call to OpenWeatherMap to get real-time weather data for the specified location. This data includes temperature, weather conditions, etc.
 
-3. Preparing Data for Microservice: The weather data, specifically temperature, description, and unit_symbol, is formatted into a JSON string. This is the data that will be sent to the microservice for further processing.
+3. Formatting Data for Microservice: After fetching the weather data, extract and format the necessary pieces of information (temperature, weather description, and unit of temperature) into a JSON string. This JSON string is what will be sent to the microservice. The code snippet for this would be:
 
-4. Calling the Microservice: The main app then calls the microservice (weatherAdvisoryMicroservice.py) using Python's subprocess module, passing the JSON string as an argument.
-
-### Format
-The microservice accepts JSON-formatted data containing the following fields:
-- `temperature`: The current temperature (numeric).
-- `description`: A brief description of the current weather (string).
-- `unit_symbol`: The unit of the temperature, either "°F" or "°C" (string).
-
-### Example Call
 ```
-import subprocess
-import json
-
 input_data = json.dumps({
-    "temperature": 72,
-    "description": "clear sky",
-    "unit_symbol": "°F"
+    "temperature": temperature,
+    "description": description,
+    "unit_symbol": unit_symbol
 })
-
-output = subprocess.check_output(["python3", "weatherAdvisoryMicroservice.py", input_data])
-print(output.decode())
 ```
+
+4. Calling the Microservice with Data: The next step is to call the microservice and pass it the formatted data. This is done using Python's subprocess module. The subprocess.check_output() function is used to call the microservice script (weatherAdvisoryMicroservice.py) and pass the JSON string as an argument:
+```
+output = subprocess.check_output(["python3", "weatherAdvisoryMicroservice.py", input_data])
+```
+In this command, weatherAdvisoryMicroservice.py is the script we are calling, and input_data is the argument being passed to it.
+
+5. Microservice Processes Request: Upon execution, the microservice receives this JSON string as input. It then processes this data - extracting the temperature, weather description, and temperature unit to generate a weather advisory.
+
+
 
 ## Receiving Data
 This output is based on the weather conditions provided in the request.
